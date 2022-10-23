@@ -1,13 +1,14 @@
 package application;
 
 import model.entities.Reserva;
+import model.entities.Reserva3;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Program2 {
+public class Program3 {
     //melhorando o programa
     public static void main(String[] args) throws ParseException {
         Scanner sc = new Scanner(System.in);
@@ -23,10 +24,9 @@ public class Program2 {
         if (!checkOut.after(checkIn)) {
             System.out.println("Error ao reservar");
         } else {
-            Reserva reserva = new Reserva(numero, checkIn, checkOut);
+            Reserva3 reserva = new Reserva3(numero, checkIn, checkOut);
             System.out.println("Reserva: " + reserva);
 
-            //ATUALIZAR
             System.out.println("Entre com a data atualizada");
             System.out.println("Digite o Check-in no formato (dd/MM/yyyy)");
             checkIn = sdf.parse(sc.next());
@@ -34,12 +34,13 @@ public class Program2 {
             checkOut = sdf.parse(sc.next());
 
             Date agora = new Date();
-            if (checkIn.before(agora) || checkOut.before(agora)) {
-                System.out.println("A reserva deve ter datas futuras");
-            } else if (!checkOut.after(checkIn)) {//senao for posterior
-                System.out.println("Check-out date must be after check-in date");
-            } else {
-                reserva.atualizarDatas(checkIn, checkOut);
+            //retorna uma string
+            //AJEITAMOS A DELEGAÇÃO
+            String error = reserva.atualizarDatas(checkIn, checkOut);
+            if(error != null){
+                System.out.println("Reservation: " + error);
+            }
+            else {
                 System.out.println("Reservation: " + reserva);
             }
         }
